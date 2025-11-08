@@ -1,0 +1,231 @@
+name: Deploy to Devnet
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm deployment to devnet'
+        required: true
+        default: ''
+
+env:
+  SOLANA_VERSION: '1.18.8'
+  ANCHOR_VERSION: '0.30.1'
+  SOLANA_NETWORK: 'devnet'
+
+jobs:
+  validate:
+    name: Validate Deployment Request
+    runs-on: ubuntu-22.04
+    outputs:
+      should_deploy: ${{ steps.check.outputs.should_deploy }}
+
+    steps:
+      - name: Check confirmation
+        id: check
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" = "deploy" ]; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✓ Deployment confirmed"
+          else
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+            echo "✗ Deployment not confirmed. Please type 'deploy' to proceed."
+            exit 1
+          fi
+
+  build:
+    name: Build Programs
+    needs: validate
+    if: needs.validate.outputs.should_deploy == 'true'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache Solana tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/solana/
+            ~/.local/share/solana/
+          key: ${{ runner.os }}-solana-${{ env.SOLANA_VERSION }}
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libudev-dev pkg-config
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Solana CLI
+        run: |
+          wget --no-verbose https://github.com/solana-labs/solana/releases/download/v${{ env.SOLANA_VERSION }}/solana-release-x86_64-unknown-linux-gnu.tar.bz2
+          tar -xjf solana-release-x86_64-unknown-linux-gnu.tar.bz2
+          mkdir -p $HOME/.local/share/solana/install
+          mv solana-release $HOME/.local/share/solana/install/active_release
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+          solana --version
+
+      - name: Install Anchor CLI
+        run: |
+          cargo install --git https://github.com/coral-xyz/anchor anchor-cli --locked --force
+          anchor --version
+
+      - name: Build programs for deployment
+        run: |
+          echo "Building programs for devnet deployment..."
+          anchor build --arch sbf
+          echo "Build completed!"
+
+      - name: Upload deployment artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-artifacts
+          path: |
+            target/deploy/*.so
+            target/idl/*.json
+            Anchor.toml
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Devnet
+    needs: [validate, build]
+    if: needs.validate.outputs.should_deploy == 'true'
+    runs-on: ubuntu-22.04
+    environment:
+      name: devnet
+      url: https://explorer.solana.com/address/${{ steps.deploy.outputs.program_id }}?cluster=devnet
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download deployment artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-artifacts
+
+      - name: Install Solana CLI
+        run: |
+          wget --no-verbose https://github.com/solana-labs/solana/releases/download/v${{ env.SOLANA_VERSION }}/solana-release-x86_64-unknown-linux-gnu.tar.bz2
+          tar -xjf solana-release-x86_64-unknown-linux-gnu.tar.bz2
+          mkdir -p $HOME/.local/share/solana/install
+          mv solana-release $HOME/.local/share/solana/install/active_release
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+
+      - name: Configure Solana for devnet
+        run: |
+          solana config set --url ${{ env.SOLANA_NETWORK }}
+          solana config get
+          echo "Solana configured for devnet"
+
+      - name: Setup deployment wallet
+        env:
+          DEPLOY_KEYPAIR: ${{ secrets.SOLANA_DEPLOY_KEYPAIR }}
+        run: |
+          echo "$DEPLOY_KEYPAIR" > ~/deploy-keypair.json
+          solana-keygen pubkey ~/deploy-keypair.json
+
+          echo "Checking wallet balance..."
+          solana balance ~/deploy-keypair.json || echo "Wallet may need funding"
+
+      - name: Request devnet airdrop if needed
+        run: |
+          BALANCE=$(solana balance ~/deploy-keypair.json | awk '{print $1}')
+          if (( $(echo "$BALANCE < 5" | bc -l) )); then
+            echo "Balance low ($BALANCE SOL), requesting airdrop..."
+            solana airdrop 2 ~/deploy-keypair.json || echo "Airdrop may be rate limited"
+            sleep 5
+            solana balance ~/deploy-keypair.json
+          else
+            echo "Balance sufficient: $BALANCE SOL"
+          fi
+
+      - name: Install Anchor CLI
+        run: |
+          cargo install --git https://github.com/coral-xyz/anchor anchor-cli --locked --force
+
+      - name: Deploy programs
+        id: deploy
+        run: |
+          echo "Deploying to devnet..."
+
+          anchor deploy \
+            --provider.cluster ${{ env.SOLANA_NETWORK }} \
+            --provider.wallet ~/deploy-keypair.json
+
+          echo "Deployment completed!"
+
+          # Get program IDs from Anchor.toml
+          echo "program_id=$(grep 'hypernode_markets' Anchor.toml | awk '{print $3}' | tr -d '\"')" >> $GITHUB_OUTPUT
+
+      - name: Verify deployment
+        run: |
+          echo "=== Verifying deployed programs ==="
+
+          MARKETS=$(grep 'hypernode_markets' Anchor.toml | awk '{print $3}' | tr -d '"')
+          STAKING=$(grep 'hypernode_staking' Anchor.toml | awk '{print $3}' | tr -d '"')
+          REWARDS=$(grep 'hypernode_rewards' Anchor.toml | awk '{print $3}' | tr -d '"')
+          SLASHING=$(grep 'hypernode_slashing' Anchor.toml | awk '{print $3}' | tr -d '"')
+          GOVERNANCE=$(grep 'hypernode_governance' Anchor.toml | awk '{print $3}' | tr -d '"')
+
+          echo "hypernode_markets: $MARKETS"
+          solana program show $MARKETS || echo "Failed to verify markets"
+
+          echo "hypernode_staking: $STAKING"
+          solana program show $STAKING || echo "Failed to verify staking"
+
+          echo "hypernode_rewards: $REWARDS"
+          solana program show $REWARDS || echo "Failed to verify rewards"
+
+          echo "hypernode_slashing: $SLASHING"
+          solana program show $SLASHING || echo "Failed to verify slashing"
+
+          echo "hypernode_governance: $GOVERNANCE"
+          solana program show $GOVERNANCE || echo "Failed to verify governance"
+
+      - name: Create deployment summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Network: Devnet" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployed Programs" >> $GITHUB_STEP_SUMMARY
+
+          MARKETS=$(grep 'hypernode_markets' Anchor.toml | awk '{print $3}' | tr -d '"')
+          STAKING=$(grep 'hypernode_staking' Anchor.toml | awk '{print $3}' | tr -d '"')
+          REWARDS=$(grep 'hypernode_rewards' Anchor.toml | awk '{print $3}' | tr -d '"')
+          SLASHING=$(grep 'hypernode_slashing' Anchor.toml | awk '{print $3}' | tr -d '"')
+          GOVERNANCE=$(grep 'hypernode_governance' Anchor.toml | awk '{print $3}' | tr -d '"')
+
+          echo "| Program | Address | Explorer |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|---------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Markets | \`$MARKETS\` | [View](https://explorer.solana.com/address/$MARKETS?cluster=devnet) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Staking | \`$STAKING\` | [View](https://explorer.solana.com/address/$STAKING?cluster=devnet) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Rewards | \`$REWARDS\` | [View](https://explorer.solana.com/address/$REWARDS?cluster=devnet) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Slashing | \`$SLASHING\` | [View](https://explorer.solana.com/address/$SLASHING?cluster=devnet) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Governance | \`$GOVERNANCE\` | [View](https://explorer.solana.com/address/$GOVERNANCE?cluster=devnet) |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment Info" >> $GITHUB_STEP_SUMMARY
+          echo "- Timestamp: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Actor: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+
+  notify:
+    name: Notify Deployment Status
+    needs: [validate, build, deploy]
+    if: always()
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Report status
+        run: |
+          if [ "${{ needs.deploy.result }}" = "success" ]; then
+            echo "✓ Deployment to devnet completed successfully"
+          else
+            echo "✗ Deployment to devnet failed"
+            exit 1
+          fi
