@@ -410,7 +410,6 @@ anchor test
 
 ### 📋 Phase 4: Mainnet Preparation (Upcoming)
 - External professional audit
-- Bug bounty program
 - Mainnet deployment
 - Treasury multi-sig setup
 
