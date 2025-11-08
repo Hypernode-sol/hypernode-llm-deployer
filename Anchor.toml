@@ -1,0 +1,33 @@
+[toolchain]
+# anchor_version auto-detected from CLI
+
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+hypernode_markets = "8c1P5BJGB79gKFL4yXPxthZhKuhKd6WuAgxwQPET6nvV"
+hypernode_staking = "9nvKFcdaP1nnuGSzV3ZeFYRkvETksqkHHji1PvsE3R5k"
+hypernode_rewards = "7xTrVJ3xvUEfdZaDMj3BKdohFiWZJmCCm53dibRbUUbJ"
+hypernode_slashing = "83rLt9YBCTkaAX6vLUuEAQE7QdhofvQWUhjybXVr7nCL"
+hypernode_governance = "BYGEToSgdrpmbZt2uapsW6s7NnFuCmVabJzfd8uFT4dE"
+
+[programs.devnet]
+hypernode_markets = "67UE2LconF9QU5Vobsaf5sXnW9yUisebLj8VmgGWLSdb"
+hypernode_staking = "3fw9eQN1KHarGcYVETvF7FDt2BYGuDPMjuhoE45RJnTJ"
+hypernode_rewards = "EqBzwuXKmDZbAMf2WTogQhzABsrG6dYbbKXW1adsLhbb"
+hypernode_slashing = "6hGxAwYG4dLiLapKYzxUq3G4fe13Ut3nfft2LueayYxq"
+hypernode_governance = "HgWFcrT4npr2iiqsF8v6bV6eHUsidmGkoYGYcJD45Jqz"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[test]
+startup_wait = 10000

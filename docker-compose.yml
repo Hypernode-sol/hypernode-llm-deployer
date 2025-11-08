@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Solana Test Validator (for local development)
+  solana:
+    image: solanalabs/solana:v1.18.26
+    command: solana-test-validator --reset
+    ports:
+      - "8899:8899"
+      - "8900:8900"
+    volumes:
+      - solana-ledger:/root/.config/solana
+    networks:
+      - hypernode
+
+  # IPFS Node (for job definition storage)
+  ipfs:
+    image: ipfs/kubo:latest
+    ports:
+      - "5001:5001"
+      - "8080:8080"
+    volumes:
+      - ipfs-data:/data/ipfs
+    networks:
+      - hypernode
+
+  # Worker (GPU node client)
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    depends_on:
+      - solana
+      - ipfs
+    environment:
+      - SOLANA_RPC_URL=http://solana:8899
+      - IPFS_GATEWAY=http://ipfs:8080
+      - IPFS_UPLOAD_URL=http://ipfs:5001/api/v0/add
+      - CONTAINER_RUNTIME=docker
+      - AUTO_ACCEPT=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./worker:/app
+    networks:
+      - hypernode
+
+volumes:
+  solana-ledger:
+  ipfs-data:
+
+networks:
+  hypernode:
+    driver: bridge
