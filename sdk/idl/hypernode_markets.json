@@ -1,0 +1,44 @@
+{
+  "version": "0.1.0",
+  "name": "hypernode_markets",
+  "instructions": [],
+  "accounts": [
+    {
+      "name": "JobAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {"name": "id", "type": "publicKey"},
+          {"name": "market", "type": "publicKey"},
+          {"name": "client", "type": "publicKey"},
+          {"name": "node", "type": {"option": "publicKey"}},
+          {"name": "ipfsJob", "type": {"array": ["u8", 32]}},
+          {"name": "ipfsResult", "type": {"array": ["u8", 32]}},
+          {"name": "price", "type": "u64"},
+          {"name": "timeout", "type": "i64"},
+          {"name": "state", "type": "u8"},
+          {"name": "timeCreated", "type": "i64"},
+          {"name": "timeStart", "type": "i64"},
+          {"name": "timeEnd", "type": "i64"},
+          {"name": "minVram", "type": "u16"},
+          {"name": "gpuType", "type": "u8"},
+          {"name": "bump", "type": "u8"}
+        ]
+      }
+    },
+    {
+      "name": "MarketAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {"name": "authority", "type": "publicKey"},
+          {"name": "totalJobs", "type": "u64"},
+          {"name": "totalNodes", "type": "u64"},
+          {"name": "jobPrice", "type": "u64"},
+          {"name": "jobTimeout", "type": "i64"},
+          {"name": "bump", "type": "u8"}
+        ]
+      }
+    }
+  ]
+}

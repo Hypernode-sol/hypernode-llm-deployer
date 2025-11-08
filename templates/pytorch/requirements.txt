@@ -1,0 +1,9 @@
+torch==2.2.0
+transformers==4.37.2
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.6.0
+accelerate==0.26.1
+bitsandbytes==0.42.0
+sentencepiece==0.1.99
+protobuf==4.25.2

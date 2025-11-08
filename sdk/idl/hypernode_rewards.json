@@ -1,0 +1,33 @@
+{
+  "version": "0.1.0",
+  "name": "hypernode_rewards",
+  "instructions": [],
+  "accounts": [
+    {
+      "name": "UserRewardsAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {"name": "authority", "type": "publicKey"},
+          {"name": "xhyper", "type": "u64"},
+          {"name": "initialReflection", "type": "u128"},
+          {"name": "totalClaimed", "type": "u64"},
+          {"name": "lastClaim", "type": "i64"},
+          {"name": "bump", "type": "u8"}
+        ]
+      }
+    },
+    {
+      "name": "ReflectionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {"name": "cumulativeReflection", "type": "u128"},
+          {"name": "totalXhyper", "type": "u64"},
+          {"name": "totalDistributed", "type": "u64"},
+          {"name": "bump", "type": "u8"}
+        ]
+      }
+    }
+  ]
+}
