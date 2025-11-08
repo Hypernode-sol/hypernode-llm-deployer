@@ -6,7 +6,7 @@ pub mod state;
 
 use instructions::*;
 
-declare_id!("8c1P5BJGB79gKFL4yXPxthZhKuhKd6WuAgxwQPET6nvV");
+declare_id!("67UE2LconF9QU5Vobsaf5sXnW9yUisebLj8VmgGWLSdb");
 
 /// Hypernode Markets Program
 /// GPU marketplace with dual queue matching and escrow payments

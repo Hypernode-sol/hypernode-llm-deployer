@@ -17,12 +17,10 @@
   "author": "Hypernode Team",
   "license": "MIT",
   "dependencies": {
-    "fastapi": "^0.1.0",
-    "ollama": "^0.1.6",
     "axios": "^1.6.2",
     "commander": "^11.1.0",
-    "@coral-xyz/anchor": "^0.32.0",
-    "@solana/web3.js": "^1.95.0"
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/web3.js": "^1.91.0"
   },
   "devDependencies": {
     "typescript": "^5.3.3",

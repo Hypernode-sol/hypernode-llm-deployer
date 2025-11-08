@@ -7,7 +7,7 @@ pub mod state;
 use instructions::*;
 pub use state::{ReflectionAccount, UserRewardsAccount};
 
-declare_id!("7xTrVJ3xvUEfdZaDMj3BKdohFiWZJmCCm53dibRbUUbJ");
+declare_id!("EqBzwuXKmDZbAMf2WTogQhzABsrG6dYbbKXW1adsLhbb");
 
 /// Hypernode Rewards Program
 /// Distributes rewards to stakers using reflection algorithm

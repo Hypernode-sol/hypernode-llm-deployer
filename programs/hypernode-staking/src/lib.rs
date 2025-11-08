@@ -12,7 +12,7 @@ use instructions::*;
 pub use state::StakeAccount;
 pub use constants::*;
 
-declare_id!("9nvKFcdaP1nnuGSzV3ZeFYRkvETksqkHHji1PvsE3R5k");
+declare_id!("3fw9eQN1KHarGcYVETvF7FDt2BYGuDPMjuhoE45RJnTJ");
 
 /// Hypernode Staking Program
 /// Stake HYPER tokens to receive xHYPER with time-based multiplier
