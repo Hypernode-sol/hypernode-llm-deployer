@@ -1,0 +1,22 @@
+[package]
+name = "hypernode-staking"
+version = "0.1.0"
+description = "Hypernode staking program with xHYPER multiplier"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "hypernode_staking"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "0.31.0"
+anchor-spl = "0.31.0"
+hypernode-rewards = { path = "../hypernode-rewards", features = ["cpi"] }

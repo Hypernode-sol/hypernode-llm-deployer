@@ -1,0 +1,25 @@
+[package]
+name = "hypernode-markets"
+version = "0.1.0"
+description = "Hypernode GPU marketplace program"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "hypernode_markets"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = ["init-if-needed"]
+init-if-needed = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "0.31.0"
+anchor-spl = "0.31.0"
+bytemuck = "1.14"
+hypernode-staking = { path = "../hypernode-staking", features = ["cpi"] }
+hypernode-rewards = { path = "../hypernode-rewards", features = ["cpi"] }

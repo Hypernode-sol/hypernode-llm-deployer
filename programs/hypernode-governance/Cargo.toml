@@ -1,0 +1,21 @@
+[package]
+name = "hypernode-governance"
+version = "0.1.0"
+description = "Hypernode DAO governance program"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "hypernode_governance"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "0.31.0"
+hypernode-staking = { path = "../hypernode-staking", features = ["cpi"] }
