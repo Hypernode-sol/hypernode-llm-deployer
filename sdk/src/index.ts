@@ -7,6 +7,9 @@ export { JobClient } from "./JobClient";
 export { StakingClient } from "./StakingClient";
 export { RewardsClient } from "./RewardsClient";
 
+// Configuration
+export * from "./config";
+
 // Types
 export * from "./types";
 
