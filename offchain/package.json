@@ -1,0 +1,42 @@
+{
+  "name": "@hypernode/offchain",
+  "version": "0.1.0",
+  "description": "Off-chain services for Hypernode facilitator (x402 protocol, Oracle, HTTP API)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "hypernode",
+    "x402",
+    "payment-protocol",
+    "oracle",
+    "solana"
+  ],
+  "author": "Hypernode Team",
+  "license": "MIT",
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.0",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.95.0",
+    "bs58": "^5.0.0",
+    "tweetnacl": "^1.0.3",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.2.0",
+    "@types/bs58": "^4.0.4",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3"
+  }
+}
