@@ -11,6 +11,8 @@ hypernode_staking = "9nvKFcdaP1nnuGSzV3ZeFYRkvETksqkHHji1PvsE3R5k"
 hypernode_rewards = "7xTrVJ3xvUEfdZaDMj3BKdohFiWZJmCCm53dibRbUUbJ"
 hypernode_slashing = "83rLt9YBCTkaAX6vLUuEAQE7QdhofvQWUhjybXVr7nCL"
 hypernode_governance = "BYGEToSgdrpmbZt2uapsW6s7NnFuCmVabJzfd8uFT4dE"
+hypernode_jobs = "HYPRjobs11111111111111111111111111111111111"
+hypernode_nodes = "HYPRnodes11111111111111111111111111111111111"
 
 [programs.devnet]
 hypernode_markets = "67UE2LconF9QU5Vobsaf5sXnW9yUisebLj8VmgGWLSdb"
@@ -18,6 +20,8 @@ hypernode_staking = "3fw9eQN1KHarGcYVETvF7FDt2BYGuDPMjuhoE45RJnTJ"
 hypernode_rewards = "EqBzwuXKmDZbAMf2WTogQhzABsrG6dYbbKXW1adsLhbb"
 hypernode_slashing = "6hGxAwYG4dLiLapKYzxUq3G4fe13Ut3nfft2LueayYxq"
 hypernode_governance = "HgWFcrT4npr2iiqsF8v6bV6eHUsidmGkoYGYcJD45Jqz"
+hypernode_jobs = "HYPRjobs11111111111111111111111111111111111"
+hypernode_nodes = "HYPRnodes11111111111111111111111111111111111"
 
 [registry]
 url = "https://api.apr.dev"
