@@ -13,6 +13,7 @@ pub fn register(
     iops: u32,
     storage_gb: u32,
     endpoint: String,
+    gpu_fingerprint_hash: [u8; 32], // GPU hardware fingerprint
 ) -> Result<()> {
     let node = &mut ctx.accounts.node;
     let clock = Clock::get()?;
@@ -67,6 +68,14 @@ pub fn register(
     node.passed_health_checks = 0;
     node.failed_health_checks = 0;
     node.health_check_pass_rate = 0;
+
+    // Anti-spoofing verification
+    node.gpu_fingerprint_hash = gpu_fingerprint_hash;
+    node.last_challenge_ts = 0;
+    node.challenge_failures = 0;
+    node.challenge_successes = 0;
+    node.audit_failures = 0;
+    node.is_flagged = false;
 
     node.bump = ctx.bumps.node;
 

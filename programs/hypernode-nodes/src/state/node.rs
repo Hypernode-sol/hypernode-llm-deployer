@@ -44,6 +44,14 @@ pub struct Node {
     pub failed_health_checks: u64,
     pub health_check_pass_rate: u8, // 0-100
 
+    /// Anti-spoofing verification
+    pub gpu_fingerprint_hash: [u8; 32], // Hash of GPU hardware details
+    pub last_challenge_ts: i64,
+    pub challenge_failures: u32,
+    pub challenge_successes: u32,
+    pub audit_failures: u32,
+    pub is_flagged: bool, // Flagged for suspicious behavior
+
     /// PDA bump
     pub bump: u8,
 }
@@ -78,6 +86,12 @@ impl Node {
         8 + // passed_health_checks
         8 + // failed_health_checks
         1 + // health_check_pass_rate
+        32 + // gpu_fingerprint_hash
+        8 + // last_challenge_ts
+        4 + // challenge_failures
+        4 + // challenge_successes
+        4 + // audit_failures
+        1 + // is_flagged
         1; // bump
 }
 
