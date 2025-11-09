@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { WalletProvider } from '@/components/WalletProvider';
 import { QueryProvider } from '@/components/QueryProvider';
+import { ToastProvider } from '@/components/ui/Toast';
 import { APP_CONFIG } from '@/lib/config';
 import './globals.css';
 
@@ -37,7 +38,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <QueryProvider>
           <WalletProvider>
-            {children}
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </WalletProvider>
         </QueryProvider>
       </body>
