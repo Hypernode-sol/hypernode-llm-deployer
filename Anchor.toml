@@ -13,6 +13,7 @@ hypernode_slashing = "83rLt9YBCTkaAX6vLUuEAQE7QdhofvQWUhjybXVr7nCL"
 hypernode_governance = "BYGEToSgdrpmbZt2uapsW6s7NnFuCmVabJzfd8uFT4dE"
 hypernode_jobs = "HYPRjobs11111111111111111111111111111111111"
 hypernode_nodes = "HYPRnodes11111111111111111111111111111111111"
+hypernode_facilitator = "FAC1L1TaTorProgRamIdPLacehOLdEr111111111111"
 
 [programs.devnet]
 hypernode_markets = "67UE2LconF9QU5Vobsaf5sXnW9yUisebLj8VmgGWLSdb"
@@ -22,6 +23,7 @@ hypernode_slashing = "6hGxAwYG4dLiLapKYzxUq3G4fe13Ut3nfft2LueayYxq"
 hypernode_governance = "HgWFcrT4npr2iiqsF8v6bV6eHUsidmGkoYGYcJD45Jqz"
 hypernode_jobs = "HYPRjobs11111111111111111111111111111111111"
 hypernode_nodes = "HYPRnodes11111111111111111111111111111111111"
+hypernode_facilitator = "FAC1L1TaTorProgRamIdPLacehOLdEr111111111111"
 
 [registry]
 url = "https://api.apr.dev"
