@@ -20,6 +20,7 @@ export interface NetworkConfig {
 /**
  * Devnet configuration with deployed program IDs
  * Deployed: November 8, 2025
+ * HYPER Token (Devnet): 56jZUEMAhXxRu7Am3L2AkRRxNJb187zBbBQqnTf6jV75
  */
 export const DEVNET_CONFIG: NetworkConfig = {
   rpcUrl: "https://api.devnet.solana.com",
@@ -31,12 +32,13 @@ export const DEVNET_CONFIG: NetworkConfig = {
     governance: new PublicKey("HgWFcrT4npr2iiqsF8v6bV6eHUsidmGkoYGYcJD45Jqz"),
   },
   token: {
-    mint: new PublicKey("92s9qna3djkMncZzkacyNQ38UKnNXZFh4Jgqe3Cmpump"),
+    mint: new PublicKey("56jZUEMAhXxRu7Am3L2AkRRxNJb187zBbBQqnTf6jV75"), // FIXED: Devnet token
   },
 };
 
 /**
  * Localnet configuration for testing
+ * Uses devnet token for local testing
  */
 export const LOCALNET_CONFIG: NetworkConfig = {
   rpcUrl: "http://localhost:8899",
@@ -48,24 +50,25 @@ export const LOCALNET_CONFIG: NetworkConfig = {
     governance: new PublicKey("BYGEToSgdrpmbZt2uapsW6s7NnFuCmVabJzfd8uFT4dE"),
   },
   token: {
-    mint: new PublicKey("92s9qna3djkMncZzkacyNQ38UKnNXZFh4Jgqe3Cmpump"),
+    mint: new PublicKey("56jZUEMAhXxRu7Am3L2AkRRxNJb187zBbBQqnTf6jV75"), // FIXED: Use devnet token for local testing
   },
 };
 
 /**
  * Mainnet configuration (placeholder - not yet deployed)
+ * HYPER Token (Mainnet): 92s9qna3djkMncZzkacyNQ38UKnNXZFh4Jgqe3Cmpump
  */
 export const MAINNET_CONFIG: NetworkConfig = {
   rpcUrl: "https://api.mainnet-beta.solana.com",
   programs: {
-    markets: PublicKey.default,
+    markets: PublicKey.default, // TODO: Deploy to mainnet
     staking: PublicKey.default,
     rewards: PublicKey.default,
     slashing: PublicKey.default,
     governance: PublicKey.default,
   },
   token: {
-    mint: new PublicKey("92s9qna3djkMncZzkacyNQ38UKnNXZFh4Jgqe3Cmpump"),
+    mint: new PublicKey("92s9qna3djkMncZzkacyNQ38UKnNXZFh4Jgqe3Cmpump"), // Mainnet token
   },
 };
 

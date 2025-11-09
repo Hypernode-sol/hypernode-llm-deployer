@@ -1,0 +1,38 @@
+{
+  "name": "@hypernode/types",
+  "version": "0.1.0",
+  "description": "Shared TypeScript types for the Hypernode ecosystem",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "hypernode",
+    "types",
+    "typescript",
+    "solana",
+    "gpu"
+  ],
+  "author": "Hypernode Team",
+  "license": "MIT",
+  "dependencies": {
+    "@solana/web3.js": "^1.95.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hypernode-sol/hypernode-llm-deployer",
+    "directory": "packages/@hypernode/types"
+  }
+}

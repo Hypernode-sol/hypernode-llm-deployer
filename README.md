@@ -15,26 +15,52 @@ Production-ready Solana programs powering the Hypernode marketplace, staking, re
 
 Hypernode is a decentralized GPU marketplace built on Solana, enabling users to access computational resources and node operators to monetize their hardware. This repository contains the core smart contracts that power the entire ecosystem.
 
-### Programs
+### Programs (7 Specialized Contracts)
+
+#### Core Layer
 
 | Program | Purpose | Status |
 |---------|---------|--------|
-| **Markets** | Job/node matching, escrow payments | ✅ Production Ready |
-| **Staking** | Time-locked HYPER staking with xHYPER multipliers | ✅ Production Ready |
-| **Rewards** | Reflection-based O(1) rewards distribution | ✅ Production Ready |
-| **Slashing** | Fraud detection and penalties | ✅ Production Ready |
-| **Governance** | DAO voting with xHYPER-weighted power | ✅ Production Ready |
+| **hypernode-nodes** | Node registry, hardware specs, reputation tracking | ✅ Deployed (Devnet) |
+| **hypernode-jobs** | Job marketplace with dynamic queue, IPFS integration | ✅ Deployed (Devnet) |
+| **hypernode-staking** | Time-locked HYPER staking with xNOS multipliers | ✅ Production Ready |
+| **hypernode-rewards** | Reflection-based O(1) rewards distribution | ✅ Production Ready |
+
+#### Governance & Security Layer
+
+| Program | Purpose | Status |
+|---------|---------|--------|
+| **hypernode-markets** | Market configuration, pricing, job parameters | ✅ Production Ready |
+| **hypernode-slashing** | Evidence-based node penalties for misbehavior | ✅ Production Ready |
+| **hypernode-governance** | DAO voting with xNOS-weighted power, proposals | ✅ Production Ready |
+
+> **Recent Update**: `hypernode-jobs` and `hypernode-nodes` migrated from [hypernode-core-protocol](https://github.com/Hypernode-sol/hypernode-core-protocol) (now deprecated).
 
 ---
 
 ## ✨ Key Features
 
+### Nodes Program
+- ✅ Node registration with hardware specifications
+- ✅ GPU type tracking (NVIDIA RTX, A100, H100, AMD MI250/MI300)
+- ✅ Reputation scoring (0-1000 scale based on job completion)
+- ✅ Heartbeat monitoring for uptime tracking
+- ✅ Stake validation and requirements
+
+### Jobs Program
+- ✅ Trustless job-to-node matching via dynamic queue
+- ✅ IPFS content-addressed storage (32-byte hashes)
+- ✅ SPL token escrow with automatic settlement
+- ✅ Permissionless recovery for expired jobs
+- ✅ Three queue states: Empty, Node-waiting, Job-waiting
+- ✅ Event emission for off-chain tracking
+
 ### Markets Program
-- ✅ Dual-queue matching system (jobs ↔ nodes)
-- ✅ Escrow-based payments
-- ✅ Job timeout protection
-- ✅ On-chain reputation tracking
-- ✅ Circular buffer queue (O(1) operations)
+- ✅ Market configuration and parameter management
+- ✅ Job pricing mechanisms
+- ✅ Timeout configuration
+- ✅ Node stake minimum requirements
+- ✅ Total jobs and nodes tracking
 
 ### Staking Program
 - ✅ Time-locked staking (2 weeks to 1 year)
