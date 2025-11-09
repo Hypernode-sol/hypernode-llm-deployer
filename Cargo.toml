@@ -5,11 +5,13 @@ members = [
     "programs/hypernode-rewards",
     "programs/hypernode-slashing",
     "programs/hypernode-governance",
+    "programs/hypernode-jobs",
+    "programs/hypernode-nodes",
 ]
 resolver = "2"
 
 [workspace.metadata.cargo-lock]
-version = 3
+version = 2
 
 [workspace.dependencies]
 borsh = "=0.10.4"

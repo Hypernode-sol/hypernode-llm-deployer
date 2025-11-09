@@ -1,0 +1,47 @@
+# Build outputs
+target/
+dist/
+*.so
+*.dylib
+*.dll
+
+# Logs
+*.log
+build*.log
+wsl*.log
+devnet*.log
+
+# Cargo
+Cargo.lock
+
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+.next/
+.turbo/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Test artifacts
+test-ledger/
+.anchor/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Claude Code
+.claude/
