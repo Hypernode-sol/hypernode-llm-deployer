@@ -6,7 +6,7 @@ pub mod errors;
 
 use instructions::*;
 
-declare_id!("HYPRjobs11111111111111111111111111111111111");
+declare_id!("7ateB21tp2kKRCT9mgD6XE7bbntpAont2rjSKpj395hN");
 
 /// Hypernode Jobs Program
 ///

@@ -6,7 +6,7 @@ pub mod state;
 use instructions::*;
 use state::*;
 
-declare_id!("HYPRnodes11111111111111111111111111111111111");
+declare_id!("5X4cihCXyDe23U4nzv6uobwp5CHLCPaye5bQ2PNB7srE");
 
 #[program]
 pub mod hypernode_nodes {
