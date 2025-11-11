@@ -45,3 +45,17 @@ test-ledger/
 
 # Claude Code
 .claude/
+
+# Local development experiments (Nov 2025)
+Dockerfile.build
+rust-toolchain
+/scripts/build-in-docker.sh
+/scripts/install-docker.sh
+
+# Keypairs (NEVER commit private keys)
+target/deploy/*.json
+!target/deploy/.gitkeep
+
+# Local development folder
+../hypernode-local-dev/
+
