@@ -1,0 +1,6 @@
+info: uninstalling toolchain 'solana'
+info: toolchain 'solana' uninstalled
+error: failed to parse lock file at: \\?\C:\Users\optim\OneDrive\Documentos\GitHub\hypernode-llm-deployer\Cargo.lock
+
+Caused by:
+  lock file version 4 requires `-Znext-lockfile-bump`
