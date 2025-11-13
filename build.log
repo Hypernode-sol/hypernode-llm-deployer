@@ -1,0 +1,19 @@
+info: uninstalling toolchain 'solana'
+info: toolchain 'solana' uninstalled
+ Downloading crates ...
+  Downloaded anchor-attribute-access-control v0.29.0
+  Downloaded base64 v0.13.1
+  Downloaded anchor-syn v0.29.0
+  Downloaded anchor-lang v0.29.0
+  Downloaded anchor-derive-space v0.29.0
+  Downloaded anchor-derive-serde v0.29.0
+  Downloaded anchor-derive-accounts v0.29.0
+  Downloaded anchor-attribute-program v0.29.0
+  Downloaded anchor-attribute-event v0.29.0
+  Downloaded anchor-attribute-error v0.29.0
+  Downloaded anchor-attribute-constant v0.29.0
+  Downloaded anchor-attribute-account v0.29.0
+error: package `toml_edit v0.23.7` cannot be built because it requires rustc 1.76 or newer, while the currently active rustc version is 1.75.0-dev
+Either upgrade to rustc 1.76 or newer, or use
+cargo update toml_edit@0.23.7 --precise ver
+where `ver` is the latest version of `toml_edit` supporting rustc 1.75.0-dev
